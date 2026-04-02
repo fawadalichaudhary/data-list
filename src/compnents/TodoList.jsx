@@ -62,7 +62,7 @@ const TodoList = () => {
             <div>
                 <input type="text" placeholder='enter name' onChange={(e) => setfirstname(e.target.value)} value={firstname} />
                 <input type="text" placeholder='enter lastname' onChange={(e) => setlastname(e.target.value)} value={lastname} />
-                <button onClick={handleSave}>save</button>
+                <button onClick={handleSave} disabled={id !== 0}>save</button>
                 <button onClick={handleClear}>clear</button>
                 <button onClick={handleUpdate} disabled={id === 0}>update</button>
             </div>
