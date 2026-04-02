@@ -8,9 +8,9 @@ const TodoList = () => {
     const [lastname, setlastname] = useState("")
 
     const handleEdit = (id) => {
-        const dt = tododata.filter(item => item.id === id)
-        setfirstname(dt[0].firstname)
-        setlastname(dt[0].lastname)
+        const dt = tododata.find(item => item.id === id)
+        setfirstname(dt.firstname)
+        setlastname(dt.lastname)
         setid(id)
     }
     const handleDelete = (id) => {
@@ -23,17 +23,21 @@ const TodoList = () => {
         e.preventDefault()
         const dt = [...tododata];
         const newobj = {
-            "id": tododata.length + 1,
+            "id": tododata.length > 0 ? Math.max(...tododata.map(i => i.id)) + 1 : 1,
             "firstname": firstname,
             "lastname": lastname
         }
         dt.push(newobj)
         settododata(dt)
         handleClear()
+        if (!firstname.trim() || !lastname.trim()) {
+            alert("Add complete Data");
+            return;
+        }
     }
 
     const handleUpdate = () => {
-        const index = Data.map((item) => {
+        const index = tododata.map((item) => {
             return item.id
         }).indexOf(id)
         const dt = [...tododata];
@@ -52,14 +56,15 @@ const TodoList = () => {
         setlastname('')
     }
 
+
     return (
         <>
             <div>
                 <input type="text" placeholder='enter name' onChange={(e) => setfirstname(e.target.value)} value={firstname} />
                 <input type="text" placeholder='enter lastname' onChange={(e) => setlastname(e.target.value)} value={lastname} />
-                <button onClick={(e) => handleSave(e)}>save</button>
-                <button onClick={() => handleClear()}>clear</button>
-                <button onClick={() => handleUpdate()}>update</button>
+                <button onClick={handleSave}>save</button>
+                <button onClick={handleClear}>clear</button>
+                <button onClick={handleUpdate} disabled={id === 0}>update</button>
             </div>
             <table className="border-collapse border border-gray-400 w-full">
                 <thead className="bg-gray-200">
